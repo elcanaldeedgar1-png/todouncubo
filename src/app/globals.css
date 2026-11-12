@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #08080a;
+  --font-sans: 'Inter Variable';
+  --font-pixel: 'Tiny5';
+}
+
+/* La fuente pixelada solo tiene un grosor: evitamos la "negrita falsa" que la emborrona */
+.font-pixel, .pixel-title, .hero-title, .eyebrow { font-synthesis: none; }
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-ink-950 text-bone font-sans antialiased;
+    background-image:
+      radial-gradient(1200px 500px at 50% -200px, rgba(249, 198, 35, 0.08), transparent 70%),
+      linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    background-size: auto, 32px 32px, 32px 32px;
+  }
+  ::selection { background: #f9c623; color: #0d0d10; }
+  :focus-visible { outline: 2px solid #ffd83d; outline-offset: 2px; border-radius: 6px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+}
+
+@layer components {
+  .container-cubo { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+
+  /* Panel con aspecto de bloque: biselado superior claro, inferior oscuro */
+  .block-panel {
+    @apply rounded-2xl border border-white/[0.07] bg-ink-850 shadow-block;
+    background-image: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0) 45%);
+  }
+  /* Panel destacado: borde dorado luminoso y partículas de bloque */
+  .panel-gold {
+    @apply relative overflow-hidden rounded-2xl border-2 border-gold-400;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(249,198,35,0.16), transparent 60%),
+      conic-gradient(from 90deg at 2px 2px, transparent 25%, rgba(249,198,35,0.06) 0) 0 0 / 28px 28px,
+      #121214;
+    box-shadow: 0 0 0 1px rgba(255,216,61,0.25), 0 0 32px -4px rgba(249,198,35,0.55), inset 0 0 40px -10px rgba(249,198,35,0.35);
+  }
+  .block-card {
+    @apply block-panel transition duration-300 will-change-transform;
+  }
+  .block-card:hover {
+    @apply -translate-y-1 border-gold-500/50;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.06), inset 0 -4px 0 rgba(0,0,0,0.45), 0 18px 40px -18px rgba(249,198,35,0.35);
+  }
+
+  /* Botones estilo Minecraft */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition duration-200 select-none;
+  }
+  .btn-outline-gold {
+    @apply btn border-2 border-gold-400 bg-ink-950/40 text-bone hover:bg-gold-400/10 hover:text-gold-100;
+    box-shadow: 0 0 18px -6px rgba(249,198,35,0.6);
+  }
+  .btn-pill { @apply rounded-full; }
+  .btn-gold {
+    @apply btn text-ink-950;
+    background: linear-gradient(180deg, #ffe46b 0%, #f9c623 55%, #e8ab12 100%);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.55), inset 0 -3px 0 #a86c06, 0 6px 20px -6px rgba(249,198,35,0.6);
+  }
+  .btn-gold:hover { filter: brightness(1.07); transform: translateY(-1px); }
+  .btn-gold:active { transform: translateY(1px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 #a86c06; }
+  .btn-stone {
+    @apply btn border border-ink-500 bg-ink-700 text-bone hover:border-gold-500/60 hover:text-gold-200;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.07), inset 0 -3px 0 rgba(0,0,0,0.5);
+  }
+  .btn-ghost { @apply btn text-bone-muted hover:text-gold-200 hover:bg-white/5; }
+  .btn-danger { @apply btn border border-redstone/50 bg-redstone/10 text-[#ff8b80] hover:bg-redstone/20; }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-md border border-ink-500 bg-ink-800 px-2.5 py-1 text-xs font-medium text-bone-muted;
+  }
+  .chip-active { @apply border-gold-400/70 bg-gold-400/15 text-gold-200; }
+
+  /* Títulos estilo Minecraft: fuente pixelada + sombra dura desplazada */
+  .pixel-title {
+    @apply font-pixel font-bold tracking-normal;
+    line-height: 1.15;
+    text-shadow: 0.06em 0.06em 0 rgba(0, 0, 0, 0.7);
+  }
+  /* Título enorme del banner: blanco, contorno oscuro y relieve 3D */
+  .hero-title {
+    @apply font-pixel font-bold text-white;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    /* Contorno con sombras (no con trazo, que rellenaba el hueco de la "o" y la "b") + relieve 3D */
+    text-shadow:
+      2px 0 0 #111, -2px 0 0 #111, 0 -2px 0 #111,
+      0 0.045em 0 #c9c9c9, 0 0.08em 0 #5a5a5a, 0 0.11em 0 #111,
+      0 0.18em 0.3em rgba(0, 0, 0, 0.7);
+  }
+  .eyebrow { @apply font-pixel text-xs font-semibold uppercase tracking-[0.12em] text-gold-400; }
+  .logo-word { word-spacing: normal; }
+  .pixel-ui { @apply text-[15px] font-semibold leading-none; }
+
+  .text-gold-gradient {
+    background: linear-gradient(180deg, #fff3b0 0%, #ffd83d 45%, #e8ab12 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: none;
+    /* sombra dura marrón, como el texto dorado de Minecraft */
+    filter: drop-shadow(0.09em 0.09em 0 #5a3a04);
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-ink-500 bg-ink-900 px-3.5 py-2.5 text-sm text-bone placeholder:text-bone-dim
+      focus:border-gold-400/70 focus:outline-none focus:ring-2 focus:ring-gold-400/20;
+  }
+  .label { @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-bone-muted; }
+
+  .seed-code { @apply font-mono text-gold-200 tracking-wide; }
+
+  /* Paisaje pixelado de relleno cuando no hay imagen */
+  .pixel-landscape {
+    background:
+      linear-gradient(180deg, transparent 62%, #5fae3a 62%, #5fae3a 68%, #7a5236 68%, #7a5236 82%, #5b5b5f 82%),
+      linear-gradient(180deg, #1e2a4a 0%, #3b5a8c 45%, #7fa8d8 62%);
+  }
+
+  .prose-cubo { @apply text-[15px] leading-7 text-bone/90; }
+  .prose-cubo h2 { @apply mt-10 mb-3 font-pixel text-2xl font-bold text-gold-200; text-shadow: 0.06em 0.06em 0 rgba(0,0,0,.7); }
+  .prose-cubo h3 { @apply mt-8 mb-2 text-lg font-bold text-bone; }
+  .prose-cubo p { @apply my-4; }
+  .prose-cubo a { @apply text-gold-300 underline decoration-gold-500/40 underline-offset-4 hover:decoration-gold-300; }
+  .prose-cubo ul { @apply my-4 list-disc space-y-1 pl-6 marker:text-gold-400; }
+  .prose-cubo ol { @apply my-4 list-decimal space-y-1 pl-6 marker:text-gold-400; }
+  .prose-cubo code { @apply rounded bg-ink-700 px-1.5 py-0.5 font-mono text-[13px] text-gold-100; }
+  .prose-cubo pre { @apply my-5 overflow-x-auto rounded-lg border border-ink-600 bg-ink-900 p-4; }
+  .prose-cubo pre code { @apply bg-transparent p-0; }
+  .prose-cubo blockquote { @apply my-5 border-l-4 border-gold-500/60 bg-gold-400/5 px-4 py-2 italic text-bone-muted; }
+  .prose-cubo img { @apply my-6 rounded-xl border border-ink-600; }
+  .prose-cubo table { @apply my-6 w-full text-sm; }
+  .prose-cubo th { @apply border-b border-ink-500 px-3 py-2 text-left text-gold-200; }
+  .prose-cubo td { @apply border-b border-ink-700 px-3 py-2; }
+}
