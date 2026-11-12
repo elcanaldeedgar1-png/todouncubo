@@ -12,7 +12,8 @@ El usuario no programa: explicar en español, paso a paso, y hacer los cambios t
 
 ## Entorno local (Windows)
 - Node está en `C:\Program Files\nodejs` y puede no estar en el PATH: anteponer `$env:Path = "C:\Program Files\nodejs;$env:Path"`.
-- Git NO está instalado.
+- Git instalado en `C:\Program Files\Git\cmd` (anteponer al PATH). Repositorio privado: https://github.com/elcanaldeedgar1-png/todouncubo (rama `main`).
+  Tras cada cambio que funcione: commit con mensaje en español y `git push`. Si el push pide iniciar sesión, lanzarlo en la terminal del usuario (run_in_terminal) para que pueda autorizar en el navegador.
 - `.env.local` y `.dev.vars` contienen las claves (no leer en voz alta ni copiar al chat). `.env.development` / `.env.production` solo tienen `NEXT_PUBLIC_SITE_URL`.
 - Desarrollo: `npx next dev -p 3001`. Prueba con el motor de Cloudflare: `npx wrangler dev --port 8787 --test-scheduled` (tras `npx opennextjs-cloudflare build`).
 
@@ -35,4 +36,4 @@ El contenido creado desde `/admin` NO necesita republicar.
 - Dominio propio (comprar en Cloudflare Registrar, añadir `routes` con `custom_domain` en `wrangler.jsonc`, cambiar `.env.production` y el secret `NEXT_PUBLIC_SITE_URL`, republicar y renovar WebSub).
 - Clave de la YouTube Data API v3 para importar el historial completo.
 - Google AdSense (variables `NEXT_PUBLIC_ADSENSE_*`), revisar textos de Privacidad y Términos.
-- Copia de seguridad del código en GitHub (requiere instalar Git).
+- Estadísticas de visitas con Cloudflare Web Analytics (el usuario traerá el token; añadir el script con `NEXT_PUBLIC_CF_ANALYTICS_TOKEN`).
