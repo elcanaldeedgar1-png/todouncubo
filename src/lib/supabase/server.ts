@@ -43,6 +43,10 @@ export async function getAdmin() {
 
 export async function requireAdmin() {
   const admin = await getAdmin();
-  if (!admin) throw new Error('No autorizado');
+  if (!admin) {
+    throw new Error(
+      'Tu sesión del panel se ha cerrado. Abre el panel en otra pestaña, vuelve a entrar y después pulsa guardar otra vez aquí (no se pierde lo que has escrito).',
+    );
+  }
   return admin;
 }

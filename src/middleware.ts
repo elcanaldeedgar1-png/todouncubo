@@ -25,6 +25,12 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
+  // Envíos de formularios del panel (Server Actions): no redirigir, porque el formulario no sabe
+  // seguir una redirección y mostraba «Application error». Cada acción comprueba la sesión
+  // (requireAdmin) y devuelve un aviso claro sin perder lo escrito.
+  const isServerAction = request.method === 'POST' && request.headers.has('next-action');
+  if (!user && !isLogin && isServerAction) return response;
+
   if (!user && !isLogin) {
     const to = new URL('/admin/login', request.url);
     to.searchParams.set('next', request.nextUrl.pathname);

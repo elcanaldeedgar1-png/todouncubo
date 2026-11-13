@@ -59,7 +59,8 @@ export async function login(_: ActionState, fd: FormData): Promise<ActionState> 
 
 export async function logout() {
   const sb = await sessionClient();
-  await sb.auth.signOut();
+  // Solo cierra la sesión de este navegador (por defecto Supabase las cerraba todas a la vez).
+  await sb.auth.signOut({ scope: 'local' });
   redirect('/admin/login');
 }
 
